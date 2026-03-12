@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>System Terminal</title>
+
+<style>
+body{
+background:black;
+color:#00ff00;
+font-family:monospace;
+margin:0;
+padding:20px;
+}
+
+#terminal{
+font-size:18px;
+white-space:pre-line;
+}
+
+#hack{
+display:none;
+color:red;
+font-size:50px;
+text-align:center;
+margin-top:40px;
+}
+
+#troll{
+display:none;
+text-align:center;
+font-size:26px;
+margin-top:20px;
+color:white;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="terminal"></div>
+<div id="hack">⚠ YOU HAVE BEEN HACKED ⚠</div>
+<div id="troll">😂 Relax — this is just a troll</div>
+
+<script>
+
+let lines = [
+"root@system: initializing connection...",
+"scanning device...",
+"firewall detected...",
+"bypassing firewall...",
+"access granted...",
+"downloading private files...",
+"uploading data...",
+"system breach complete..."
+];
+
+let i = 0;
+
+function typeLine(){
+
+if(i < lines.length){
+
+document.getElementById("terminal").innerHTML += lines[i] + "\n";
+
+i++;
+
+setTimeout(typeLine,900);
+
+}else{
+
+setTimeout(()=>{
+
+document.getElementById("hack").style.display="block";
+
+setTimeout(()=>{
+document.getElementById("troll").style.display="block";
+},3000);
+
+},1000);
+
+}
+
+}
+
+typeLine();
+
+</script>
+
+</body>
+</html>
