@@ -1,36 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>System Terminal</title>
+<title>System Breach</title>
 
 <style>
 body{
-background:black;
-color:#00ff00;
-font-family:monospace;
 margin:0;
-padding:20px;
+background:black;
+overflow:hidden;
+color:#0f0;
+font-family:monospace;
 }
 
-#terminal{
-font-size:18px;
-white-space:pre-line;
+canvas{
+position:fixed;
+top:0;
+left:0;
 }
 
 #hack{
-display:none;
-color:red;
-font-size:50px;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
 text-align:center;
-margin-top:40px;
+display:none;
 }
 
-#troll{
-display:none;
-text-align:center;
-font-size:26px;
-margin-top:20px;
+#hack h1{
+color:red;
+font-size:70px;
+animation:blink 0.7s infinite;
+}
+
+#hack p{
+font-size:28px;
 color:white;
+display:none;
+}
+
+@keyframes blink{
+0%{opacity:1;}
+50%{opacity:0;}
+100%{opacity:1;}
 }
 </style>
 
@@ -38,36 +50,59 @@ color:white;
 
 <body>
 
-<div id="terminal"></div>
-<div id="hack">⚠ YOU HAVE BEEN HACKED ⚠</div>
-<div id="troll">😂 Relax — this is just a troll</div>
+<canvas id="matrix"></canvas>
+
+<div id="hack">
+<h1>YOU HAVE BEEN HACKED</h1>
+<p id="troll">Relax 😂 This is just a troll</p>
+</div>
 
 <script>
 
-let lines = [
-"root@system: initializing connection...",
-"scanning device...",
-"firewall detected...",
-"bypassing firewall...",
-"access granted...",
-"downloading private files...",
-"uploading data...",
-"system breach complete..."
-];
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-let i = 0;
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
 
-function typeLine(){
+let letters = "01HACKED";
+letters = letters.split("");
 
-if(i < lines.length){
+let fontSize = 16;
+let columns = canvas.width / fontSize;
 
-document.getElementById("terminal").innerHTML += lines[i] + "\n";
+let drops = [];
 
-i++;
+for(let x=0;x<columns;x++)
+drops[x]=1;
 
-setTimeout(typeLine,900);
+function draw(){
 
-}else{
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#0F0";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+let text = letters[Math.floor(Math.random()*letters.length)];
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize > canvas.height && Math.random()>0.975)
+drops[i]=0;
+
+drops[i]++;
+
+}
+
+}
+
+setInterval(draw,33);
+
+
+// sau 6 giây hiện chữ hack
 
 setTimeout(()=>{
 
@@ -75,15 +110,9 @@ document.getElementById("hack").style.display="block";
 
 setTimeout(()=>{
 document.getElementById("troll").style.display="block";
-},3000);
+},4000);
 
-},1000);
-
-}
-
-}
-
-typeLine();
+},6000);
 
 </script>
 
