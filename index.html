@@ -4,18 +4,27 @@
 <title>System Breach</title>
 
 <style>
+
 body{
 margin:0;
 background:black;
 overflow:hidden;
-color:#0f0;
 font-family:monospace;
+color:#0f0;
 }
 
 canvas{
 position:fixed;
 top:0;
 left:0;
+}
+
+#scan{
+position:absolute;
+top:20%;
+width:100%;
+text-align:center;
+font-size:28px;
 }
 
 #hack{
@@ -30,13 +39,13 @@ display:none;
 #hack h1{
 color:red;
 font-size:70px;
-animation:blink 0.7s infinite;
+animation:blink 0.6s infinite;
 }
 
-#hack p{
-font-size:28px;
-color:white;
+#relax{
 display:none;
+font-size:30px;
+color:white;
 }
 
 @keyframes blink{
@@ -44,34 +53,38 @@ display:none;
 50%{opacity:0;}
 100%{opacity:1;}
 }
-</style>
 
+</style>
 </head>
 
 <body>
 
 <canvas id="matrix"></canvas>
 
+<div id="scan"></div>
+
 <div id="hack">
 <h1>YOU HAVE BEEN HACKED</h1>
-<p id="troll">Relax 😂 This is just a troll</p>
+<p id="relax">😂 Relax — this is just a troll</p>
 </div>
 
 <script>
 
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
+// MATRIX EFFECT
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
 
-let letters = "01HACKED";
-letters = letters.split("");
+canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;
 
-let fontSize = 16;
-let columns = canvas.width / fontSize;
+let letters="01HACK";
+letters=letters.split("");
 
-let drops = [];
+let fontSize=16;
+let columns=canvas.width/fontSize;
+
+let drops=[];
 
 for(let x=0;x<columns;x++)
 drops[x]=1;
@@ -86,11 +99,11 @@ ctx.font=fontSize+"px monospace";
 
 for(let i=0;i<drops.length;i++){
 
-let text = letters[Math.floor(Math.random()*letters.length)];
+let text=letters[Math.floor(Math.random()*letters.length)];
 
 ctx.fillText(text,i*fontSize,drops[i]*fontSize);
 
-if(drops[i]*fontSize > canvas.height && Math.random()>0.975)
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
 drops[i]=0;
 
 drops[i]++;
@@ -102,17 +115,46 @@ drops[i]++;
 setInterval(draw,33);
 
 
-// sau 6 giây hiện chữ hack
+// SCAN TEXT
 
-setTimeout(()=>{
+let steps=[
+"Scanning device...",
+"Accessing system files...",
+"Bypassing firewall...",
+"Downloading private data..."
+];
 
+let i=0;
+
+function scan(){
+
+if(i<steps.length){
+document.getElementById("scan").innerHTML=steps[i];
+i++;
+setTimeout(scan,1500);
+}else{
+
+document.getElementById("scan").style.display="none";
 document.getElementById("hack").style.display="block";
 
+// SCREEN SHAKE
+
+setInterval(()=>{
+document.body.style.transform=
+"translate("+(Math.random()*12-6)+"px,"+(Math.random()*12-6)+"px)";
+},80);
+
+// SHOW RELAX
+
 setTimeout(()=>{
-document.getElementById("troll").style.display="block";
+document.getElementById("relax").style.display="block";
 },4000);
 
-},6000);
+}
+
+}
+
+setTimeout(scan,3000);
 
 </script>
 
